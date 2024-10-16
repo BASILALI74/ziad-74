@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحقق من مطابقة أبعاد الشقة</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin-top: 50px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        input {
+            padding: 10px;
+            margin: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>تحقق من مطابقة أبعاد الشقة</h1>
+
+    <div id="dynamicForms"></div>
+    
+    <button onclick="addRoom()">إضافة غرفة</button>
+    <button onclick="addKitchen()">إضافة مطبخ</button>
+    <button onclick="addBathroom()">إضافة حمام</button>
+
+    <div id="result"></div>
+
+    <script>
+        let roomCount = 0;
+        let kitchenCount = 0;
+        let bathroomCount = 0;
+
+        function addRoom() {
+            roomCount++;
+            const formContainer = document.getElementById('dynamicForms');
+            const newRoomForm = document.createElement('form');
+            newRoomForm.innerHTML = `
+                <h3>غرفة النوم ${roomCount}</h3>
+                <label for="roomLength${roomCount}">طول الغرفة (متر):</label><br>
+                <input type="number" id="roomLength${roomCount}" name="roomLength${roomCount}" required><br>
+                <label for="roomWidth${roomCount}">عرض الغرفة (متر):</label><br>
+                <input type="number" id="roomWidth${roomCount}" name="roomWidth${roomCount}" required><br>
+                <button type="button" onclick="checkRoomCompliance(${roomCount})">تحقق من الغرفة</button>
+            `;
+            formContainer.appendChild(newRoomForm);
+        }
+
+        function addKitchen() {
+            kitchenCount++;
+            const formContainer = document.getElementById('dynamicForms');
+            const newKitchenForm = document.createElement('form');
+            newKitchenForm.innerHTML = `
+                <h3>المطبخ ${kitchenCount}</h3>
+                <label for="kitchenLength${kitchenCount}">طول المطبخ (متر):</label><br>
+                <input type="number" id="kitchenLength${kitchenCount}" name="kitchenLength${kitchenCount}" required><br>
+                <label for="kitchenWidth${kitchenCount}">عرض المطبخ (متر):</label><br>
+                <input type="number" id="kitchenWidth${kitchenCount}" name="kitchenWidth${kitchenCount}" required><br>
+                <button type="button" onclick="checkKitchenCompliance(${kitchenCount})">تحقق من المطبخ</button>
+            `;
+            formContainer.appendChild(newKitchenForm);
+        }
+
+        function addBathroom() {
+            bathroomCount++;
+            const formContainer = document.getElementById('dynamicForms');
+            const newBathroomForm = document.createElement('form');
+            newBathroomForm.innerHTML = `
+                <h3>الحمام ${bathroomCount}</h3>
+                <label for="bathroomLength${bathroomCount}">طول الحمام (متر):</label><br>
+                <input type="number" id="bathroomLength${bathroomCount}" name="bathroomLength${bathroomCount}" required><br>
+                <label for="bathroomWidth${bathroomCount}">عرض الحمام (متر):</label><br>
+                <input type="number" id="bathroomWidth${bathroomCount}" name="bathroomWidth${bathroomCount}" required><br>
+                <button type="button" onclick="checkBathroomCompliance(${bathroomCount})">تحقق من الحمام</button>
+            `;
+            formContainer.appendChild(newBathroomForm);
+        }
+
+        function checkRoomCompliance(roomNum) {
+            const length = document.getElementById(`roomLength${roomNum}`).value;
+            const width = document.getElementById(`roomWidth${roomNum}`).value;
+
+            const minRoomLength = 3.0;
+            const minRoomWidth = 2.5;
+
+            let resultText = '';
+            if (length >= minRoomLength && width >= minRoomWidth) {
+                resultText = `أبعاد غرفة النوم ${roomNum} مطابقة للاشتراطات.`;
+            } else {
+                resultText = `أبعاد غرفة النوم ${roomNum} غير مطابقة للاشتراطات.`;
+            }
+
+            document.getElementById('result').textContent = resultText;
+        }
+
+        function checkKitchenCompliance(kitchenNum) {
+            const length = document.getElementById(`kitchenLength${kitchenNum}`).value;
+            const width = document.getElementById(`kitchenWidth${kitchenNum}`).value;
+
+            const minKitchenLength = 2.5;
+            const minKitchenWidth = 2.0;
+
+            let resultText = '';
+            if (length >= minKitchenLength && width >= minKitchenWidth) {
+                resultText = `أبعاد المطبخ ${kitchenNum} مطابقة للاشتراطات.`;
+            } else {
+                resultText = `أبعاد المطبخ ${kitchenNum} غير مطابقة للاشتراطات.`;
+            }
+
+            document.getElementById('result').textContent = resultText;
+        }
+
+        function checkBathroomCompliance(bathroomNum) {
+            const length = document.getElementById(`bathroomLength${bathroomNum}`).value;
+            const width = document.getElementById(`bathroomWidth${bathroomNum}`).value;
+
+            const minBathroomLength = 1.8;
+            const minBathroomWidth = 1.2;
+
+            let resultText = '';
+            if (length >= minBathroomLength && width >= minBathroomWidth) {
+                resultText = `أبعاد الحمام ${bathroomNum} مطابقة للاشتراطات.`;
+            } else {
+                resultText = `أبعاد الحمام ${bathroomNum} غير مطابقة للاشتراطات.`;
+            }
+
+            document.getElementById('result').textContent = resultText;
+        }
+    </script>
+
+</body>
+</html>
